@@ -64,9 +64,17 @@ class Wheel
     {
         $this->hasGas = $hasGas;
     }
-    public static function createWheel($type, $material, $color, $inch) : Wheel
+    public static function createWheel(string $type, string $material, string $color, int $inch) : self
     {
-        return new Wheel($type, $material, $color, $inch);
+        return new self($type, $material, $color, $inch);
+    }
+    public static function createMultipleWheels(array $types, string $material, string $color, int $inch) : array
+    {
+        $array = [];
+        foreach ($types as $type) {
+            $array[] = self::createWheel($type, $material, $color, $inch);
+        }
+        return $array;
     }
 //    public function replace()
 //    {

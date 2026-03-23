@@ -56,9 +56,17 @@ class Door
     {
         return $this->status;
     }
-    public static function createDoor(string $type, Window $window) : Door
+    public static function createDoor(string $type, Window $window) : self
     {
-        return new Door($type, $window);
+        return new self($type, $window);
+    }
+    public static function createMultipleDoors(array $types, array $windows) : array
+    {
+        $array = [];
+        foreach ($types as $index => $type) {
+            $array[] = self::createDoor($type, $windows[$index]);
+        }
+        return $array;
     }
 //    public function replace()
 //    {

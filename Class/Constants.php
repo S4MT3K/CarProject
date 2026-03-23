@@ -13,6 +13,8 @@ class Constants
     const string WHEEL_TYPE_FR = "FR";
     const string WHEEL_TYPE_RL = "RL";
     const string WHEEL_TYPE_RR = "RR";
+    const string WHEEL_MATERIAL_A = "aluminium";
+    const string WHEEL_MATERIAL_S = "steel";
     #DOOR
     const string DOOR_TYPE_FL = "FL";
     const string DOOR_TYPE_FR = "FR";
@@ -25,4 +27,7 @@ class Constants
     const string WINDOW_TYPE_RR = "RR";
     const string WINDOW_TYPE_FRONT = "front";
     const string WINDOW_TYPE_REAR = "rear";
+    #SEAT
+    const string SEAT_MATERIAL_L = "leather";
+    const string SEAT_MATERIAL_P = "polymer";
 }

@@ -45,8 +45,8 @@ class Engine
 //    {
 //        return new Engine();
 //    }
-    public static function createEngine(string $type) : Engine
+    public static function createEngine(string $type) : self
     {
-        return new Engine($type);
+        return new self($type);
     }
 }

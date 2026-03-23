@@ -64,30 +64,50 @@ class Window
     {
         return $this->isTinted;
     }
-    public function heat()
+    public function heat() : string
     {
+        if($this->isBroken())
+        {
+            return "Window is Broken";
+        }
+        if($this->isHeating())
+        {
+            return "Window is already Heating";
+        }
         if ($this->isHeatable()) {
             $this->isHeating = true;
+            return "Heating...";
         }
-        else {
-            echo "This window is not heatable";
-        }
+        return "This window is not heatable";
     }
     public function stopHeating()
     {
+        if(!$this->isHeating())
+        {
+            return "Window heater is already stopped ";
+        }
         if ($this->isHeatable()) {
             $this->isHeating = false;
         }
-        else {
-            echo "This window is not heatable";
-        }
+        return "This window is not heatable";
     }
-    public function createWindow($type, $heatable, $isUnbreakable, $isTinted)
+    public static function createWindow(string $type, bool $heatable, bool $isUnbreakable, bool $isTinted) : self
     {
         if ($type == "front") {
             $isTinted = false;
          }
-        return new Window($type, $heatable, $isUnbreakable, $isTinted);
+        return new self($type, $heatable, $isUnbreakable, $isTinted);
+    }
+    public static function createMultipleWindows(array $types, bool $heatable, bool $isUnbreakable, bool $isTinted) : array
+    {
+        $array = [];
+        foreach ($types as $type) {
+            if ($type == "front") {
+                $isTinted = false;
+            }
+            $array[] = self::createWindow($type, $heatable, $isUnbreakable, $isTinted);
+        }
+        return $array;
     }
 //    public function replace()
 //    {

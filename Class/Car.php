@@ -4,20 +4,46 @@ class Car
     private string $color;
     private string $brand;
     private float $health = 100;
-    private float $kilometers;
-    private float $fuelstand;
+    private float $kilometers = 0;
+    private float $fuelstand = 0;
     private Engine $engine;
-    private Light $light;
+    private float $payload = 0;
+    private bool $isDriving = false;
+
+    /**
+     * @var Light[]
+     */
+    private array $lights;
+    /**
+     * @var Wheel[]
+     */
     private array $wheels;
+    /**
+     * @var Door[]
+     */
     private array $doors;
+    /**
+     * @var Window[]
+     */
     private array $windows;
+    /**
+     * @var Seat[]
+     */
     private array $seats;
-    private float $payload;
-    private bool $isDriving;
 
-    private function __construct()
+    private function __construct($color, $brand, $kilometers, $fuelstand, $engine, $light, $wheels, $doors, $windows, $seats, $payload)
     {
-
+        $this->color = $color;
+        $this->brand = $brand;
+        $this->kilometers = $kilometers;
+        $this->fuelstand = $fuelstand;
+        $this->engine = $engine;
+        $this->lights = $light;
+        $this->doors = $doors;
+        $this->windows = $windows;
+        $this->seats = $seats;
+        $this->payload = $payload;
+        $this->wheels = $wheels;
     }
     private function getWheelsCount() : int
     {
@@ -31,7 +57,7 @@ class Car
     {
         $this->health = 100;
     }
-    public function refuel($amount) : void
+    public function refuel(float $amount) : void
     {
         $this->fuelstand += $amount;
         if($this->fuelstand > 100)
@@ -70,14 +96,16 @@ class Car
     public function setPayload(float $payload) : string
     {
         $this->payload += $payload;
-        $this->light->setLightHeightFromLoad($this->getpayload());
+        foreach($this->lights as $light) {
+            $light->setLightHeightFromLoad($this->getpayload());
+        }
         if($payload > 500)
         {
-            return "Payload is too big, car can't carry it and wont be able to drive. Light height set to " . $this->light->getLightHeightStep();
+            return "Payload is too big, car can't carry it and wont be able to drive.";
         }
-        return "Payload set. Light height set to " . $this->light->getLightHeightStep();
+        return "Payload set. Light height set to " . $this->lights[0]->getLightHeightStep();
     }
-    public function drive($distance) : string
+    public function drive(float $distance) : string
     {
         if($this->isBroken()) {
              return "Car is broken";
@@ -131,6 +159,26 @@ class Car
             }
         $this->engine->start();
         return "Engine started";
+    }
+    public function turnOnLights()
+    {
+        if(!empty($this->lights))
+        {
+            foreach($this->lights as $light)
+                $light->turnOn();
+        }
+    }
+    public function turnOffLights()
+    {
+        if(!empty($this->lights))
+        {
+            foreach($this->lights as $light)
+                $light->turnOff();
+        }
+    }
+    public static function createCar($color, $brand, $kilometers, $fuelstand, $engine, $light, $wheels, $doors, $windows, $seats, $payload)
+    {
+        return new self($color, $brand, $kilometers, $fuelstand, $engine, $light, $wheels, $doors, $windows, $seats, $payload);
     }
 }
 
